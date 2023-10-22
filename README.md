@@ -1,6 +1,4 @@
-<center>
-<img src="https://lh3.googleusercontent.com/a/ACg8ocLT4TZaIy_Fl6Hcui23N7EKQabMG-hC1BndseaeAGpVC-sh=s192-c-rg-br100" alt="Abhi">
-</center>
+<img align="center" src="https://lh3.googleusercontent.com/a/ACg8ocLT4TZaIy_Fl6Hcui23N7EKQabMG-hC1BndseaeAGpVC-sh=s192-c-rg-br100" alt="Abhi">
 <h1 align="center">Hi 👋, I'm Abhi Surya Nugroho</h1>
 <h3 align="center">A passionate frontend developer from Indonesia</h3>
 
