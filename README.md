@@ -1,4 +1,4 @@
-<div style="display: flex; justify-content: center;">
+<div style="width: 1000px;display: flex; justify-content: center;">
 <img src="https://lh3.googleusercontent.com/a/ACg8ocLT4TZaIy_Fl6Hcui23N7EKQabMG-hC1BndseaeAGpVC-sh=s192-c-rg-br100" alt="Abhi">
 </div>
 <h1 align="center">Hi 👋, I'm Abhi Surya Nugroho</h1>
