@@ -1,6 +1,6 @@
-<div style="width: 1000px;display: flex; justify-content: center;">
+<p align="center">
 <img src="https://lh3.googleusercontent.com/a/ACg8ocLT4TZaIy_Fl6Hcui23N7EKQabMG-hC1BndseaeAGpVC-sh=s192-c-rg-br100" alt="Abhi">
-</div>
+</p>
 <h1 align="center">Hi 👋, I'm Abhi Surya Nugroho</h1>
 <h3 align="center">A passionate frontend developer from Indonesia</h3>
 
