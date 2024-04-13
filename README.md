@@ -6,9 +6,9 @@
 
 <p align="left"> <img src="https://komarev.com/ghpvc/?username=abhisn15&label=Profile%20views&color=0e75b6&style=flat" alt="abhisn15" /> </p>
 
-- 🧑‍🎓 I’m currently HighSchool from SMK Negeri 40 Jakarta And I Make Website Movie <a href='bitrailer.netlify.app'>Bitrailer</a>
+- 🧑‍🎓 I’m currently HighSchool from SMK Negeri 40 Jakarta And I Make Website Movie <a target='_blank' href='https://bitrailer.netlify.app'>Bitrailer</a>
 
-- 🧩 I'm Make A Puzzle Game <a href='rubrik-majalah-game.netlify.app'>Web Puzle Game</a>
+- 🧩 I'm Make A Puzzle Game <a target='_blank' href='https://rubrik-majalah-game.netlify.app'>Web Puzle Game</a>
 
 - 👨‍💻 All of my projects are available at <a href=''>My Portfolio</a>
 
