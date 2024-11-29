@@ -31,8 +31,6 @@
 <img src='https://github-readme-stats.vercel.app/api?username=abhisn15&show_icons=true&theme=tokyonight'> -->
 </div>
 
-<div align='left'>
-
 <div style="display: flex; align-items: center; justify-content: center; gap: 20px; width: 100%;">
   <a href="https://github.com/abhisn15">
     <img src="https://github-readme-stats.vercel.app/api?username=abhisn15&theme=algolia&show_icons=true" alt="Top Langs" />
