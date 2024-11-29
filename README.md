@@ -34,7 +34,6 @@
 <div align='left'>
 
 [![Top Langs](https://github-readme-stats.vercel.app/api?username=abhisn15&theme=algolia&show_icons=true)](https://github.com/abhisn15)
-</div>
 
 [![Abhi Surya Nugroho GitHub stats](https://github-readme-stats.vercel.app/api/top-langs?username=abhisn15&hide=html,scss,stylus,blade,jupyter%20notebook,python,css,shell,batchfile,dockerfile,typescript&theme=algolia&show_icons=true)](https://github.com/abhisn15)
 </div>
