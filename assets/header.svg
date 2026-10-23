@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="560" height="236" viewBox="0 0 560 236" role="img" aria-labelledby="judul deskripsi">
+  <title id="judul">Abhi Surya Nugroho, Fullstack Developer</title>
+  <desc id="deskripsi">Code with intention. Design with compassion.</desc>
+  <style>
+    .nama { font: 800 50px 'Segoe UI', Inter, system-ui, -apple-system, 'Helvetica Neue', Arial, sans-serif; fill: #99F4FF; letter-spacing: 0.5px; }
+    .peran { font: 600 18px 'Segoe UI', Inter, system-ui, -apple-system, 'Helvetica Neue', Arial, sans-serif; fill: #FFFFFF; letter-spacing: 1.2px; }
+    .moto { font: 400 14.5px 'Segoe UI', Inter, system-ui, -apple-system, 'Helvetica Neue', Arial, sans-serif; fill: #B9C0CC; }
+  </style>
+  <rect x="0.5" y="0.5" width="559" height="235" rx="14" fill="#1D2028" stroke="#2E3340"/>
+  <rect x="36" y="42" width="8" height="90" rx="2" fill="#6BBEC8"/>
+  <text class="nama" x="62" y="78">Abhi Surya</text>
+  <text class="nama" x="102" y="132">Nugroho</text>
+  <rect x="62" y="167" width="28" height="2" fill="#6BBEC8"/>
+  <text class="peran" x="100" y="174">Fullstack Developer</text>
+  <text class="moto" x="62" y="202">Code with intention. Design with compassion.</text>
+</svg>
