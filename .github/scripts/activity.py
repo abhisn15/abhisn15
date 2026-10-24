@@ -1,21 +1,24 @@
-"""Render the profile's activity card (dark + light SVG) from the GitHub contribution calendar.
+"""Render the profile's activity card, "A year in orbit" (dark + light SVG), from the GitHub contribution calendar.
+
+Every day of the last year is a dot on a slowly turning spiral: oldest at the centre, today on the rim,
+busier days bigger and brighter. No numbers on purpose.
 
 Uses the GraphQL API when GITHUB_TOKEN is set (GitHub Actions), otherwise the public calendar page.
 Stdlib only.  Usage: python activity.py --user abhisn15 --out dist
 """
-import argparse, datetime as dt, html, json, math, os, re, urllib.request
+import argparse, datetime as dt, json, math, os, re, urllib.request
 
 TOKENS = {
-    "dark": dict(bg="#0D1117", dots="#2A3140", surface="#161B22", border="#30363D", text="#E6EDF3",
+    "dark": dict(bg="#0D1117", dots="#2A3140", border="#30363D", quiet="#3A4250", text="#E6EDF3",
                  muted="#8B949E", a1="#99F4FF", a2="#7C9CFF", a3="#C792FF", orb1="#1F6FEB", orb2="#8957E5", orb_op="0.18"),
-    "light": dict(bg="#FFFFFF", dots="#E4E8EE", surface="#F6F8FA", border="#D0D7DE", text="#1F2328",
+    "light": dict(bg="#FFFFFF", dots="#E4E8EE", border="#D0D7DE", quiet="#C9D1D9", text="#1F2328",
                   muted="#59636E", a1="#0E7C86", a2="#3B5BDB", a3="#8250DF", orb1="#1F6FEB", orb2="#8957E5", orb_op="0.08"),
 }
 
 
 def fetch_graphql(user, token):
     q = """query($u:String!){user(login:$u){contributionsCollection{contributionCalendar{
-      totalContributions weeks{contributionDays{date contributionCount}}}}}}"""
+      weeks{contributionDays{date contributionCount}}}}}}"""
     req = urllib.request.Request("https://api.github.com/graphql",
                                  data=json.dumps({"query": q, "variables": {"u": user}}).encode(),
                                  headers={"Authorization": f"bearer {token}", "Content-Type": "application/json",
@@ -42,140 +45,123 @@ def fetch_public(user):
     return sorted((d, tips.get(i, 0)) for d, i in cells.items())
 
 
-def stats(days):
-    days = sorted(days)
-    total = sum(c for _, c in days)
-    longest = run = 0
-    for _, c in days:
-        run = run + 1 if c > 0 else 0
-        longest = max(longest, run)
-    current = 0
-    rev = list(reversed(days))
-    if rev and rev[0][1] == 0:  # today may still be empty: start from yesterday
-        rev = rev[1:]
-    for _, c in rev:
-        if c == 0:
-            break
-        current += 1
-    wd = [0] * 7
-    for d, c in days:
-        wd[dt.date.fromisoformat(d).weekday()] += c
-    busiest = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"][wd.index(max(wd))]
-    weeks, cur = [], []  # weeks end on Saturday, like the GitHub calendar
-    for d, c in days:
-        cur.append((d, c))
-        if dt.date.fromisoformat(d).weekday() == 5:
-            weeks.append(cur)
-            cur = []
-    if cur:
-        weeks.append(cur)
-    weeks = weeks[-53:]
-    return dict(total=total, longest=longest, current=current, busiest=busiest,
-                weeks=[(w[0][0], sum(c for _, c in w)) for w in weeks])
+def rgb(h):
+    h = h.lstrip("#")
+    return [int(h[i:i + 2], 16) for i in (0, 2, 4)]
 
 
-def plural(n, word):
-    return f"{n} {word}" + ("" if n == 1 else "s")
+def mix(a, b, f):
+    return "#" + "".join(f"{round(x + (y - x) * f):02X}" for x, y in zip(rgb(a), rgb(b)))
 
 
-def render(s, t, today):
-    W, H = 840, 300
-    x0, x1, base, top = 44, 796, 246, 132
-    n = len(s["weeks"])
-    step = (x1 - x0) / n
-    bw = max(4.0, step * 0.68)
-    mx = max([c for _, c in s["weeks"]] + [1])
-    peak_i = max(range(n), key=lambda i: s["weeks"][i][1])
-    bars, months, last_m = [], [], None
-    for i, (start, c) in enumerate(s["weeks"]):
-        x = x0 + i * step + (step - bw) / 2
-        if c == 0:
-            bars.append(f'<rect x="{x:.1f}" y="{base - 3}" width="{bw:.1f}" height="3" rx="1.5" fill="{t["border"]}"/>')
-        else:
-            h = max(6.0, (base - top) * math.sqrt(c / mx))
-            bars.append(f'<rect class="bar" style="animation-delay:{i * 22}ms" x="{x:.1f}" y="{base - h:.1f}" '
-                        f'width="{bw:.1f}" height="{h:.1f}" rx="{min(3, bw / 2):.1f}" fill="url(#bar)"/>')
-        m = start[:7]
-        if m != last_m:
-            if last_m is not None:
-                label = dt.date.fromisoformat(start).strftime("%b").upper()
-                months.append(f'<text x="{x:.1f}" y="{base + 20}" class="mono axis">{label}</text>')
-            last_m = m
-    px = x0 + peak_i * step + step / 2
-    ph = max(6.0, (base - top) * math.sqrt(s["weeks"][peak_i][1] / mx))
-    peak_label = plural(s["weeks"][peak_i][1], "contribution")
-    anchor = "end" if px > 700 else ("start" if px < 140 else "middle")
-    stats_block = ""
-    for k, (label, value) in enumerate((("CURRENT STREAK", plural(s["current"], "day")),
-                                        ("LONGEST STREAK", plural(s["longest"], "day")),
-                                        ("MOST ACTIVE", s["busiest"]))):
-        sx = 420 + k * 130
-        if k:
-            stats_block += f'<line x1="{sx - 16}" y1="46" x2="{sx - 16}" y2="88" stroke="{t["border"]}"/>'
-        stats_block += (f'<text x="{sx}" y="58" class="mono label">{label}</text>'
-                        f'<text x="{sx}" y="82" class="sans stat">{html.escape(value)}</text>')
-    total = f"{s['total']:,}"
+def ramp(t, f):
+    """cyan -> indigo -> violet along the year"""
+    return mix(t["a1"], t["a2"], f * 2) if f < 0.5 else mix(t["a2"], t["a3"], (f - 0.5) * 2)
+
+
+def levels(counts):
+    nz = sorted(c for c in counts if c > 0)
+    if not nz:
+        return [0] * len(counts)
+    q = [nz[int(len(nz) * p)] for p in (0.25, 0.5, 0.8)]
+    return [0 if c == 0 else 1 + sum(c > x for x in q) for c in counts]
+
+
+def render(days, t, today):
+    W, H = 840, 340
+    cx, cy = 612, 170
+    r0, r1, turns = 16, 152, 4.25
+    days = sorted(days)[-365:]
+    n = len(days)
+    lv = levels([c for _, c in days])
+    pts, dots, glows = [], [], []
+    for i, ((_, c), L) in enumerate(zip(days, lv)):
+        f = i / max(1, n - 1)
+        th = -math.pi / 2 + f * turns * 2 * math.pi
+        r = r0 + (r1 - r0) * f
+        x, y = cx + r * math.cos(th), cy + r * math.sin(th)
+        pts.append(f"{x:.1f},{y:.1f}")
+        delay = f"{(i * 37) % 4000}ms"
+        if L == 0:
+            dots.append(f'<circle cx="{x:.1f}" cy="{y:.1f}" r="1.1" fill="{t["quiet"]}"/>')
+            continue
+        col = ramp(t, f)
+        rad = (1.8, 2.6, 3.5, 4.8)[L - 1]
+        cls = ' class="tw"' if L >= 3 else ""
+        style = f' style="animation-delay:{delay}"' if L >= 3 else ""
+        if L == 4:
+            glows.append(f'<circle cx="{x:.1f}" cy="{y:.1f}" r="9" fill="{col}" opacity="0.35"/>')
+        dots.append(f'<circle{cls}{style} cx="{x:.1f}" cy="{y:.1f}" r="{rad}" fill="{col}"/>')
+    lx, ly = pts[-1].split(",")
+    legend = "".join(
+        f'<circle cx="{58 + k * 16}" cy="252" r="{r}" fill="{ramp(t, 0.15 + k * 0.23) if k else t["quiet"]}"/>'
+        for k, r in enumerate((1.1, 1.8, 2.6, 3.5, 4.8)))
     return f'''<svg xmlns="http://www.w3.org/2000/svg" width="{W}" height="{H}" viewBox="0 0 {W} {H}" role="img" aria-labelledby="t d">
-  <title id="t">GitHub activity, last 12 months</title>
-  <desc id="d">{total} contributions. Current streak {plural(s["current"], "day")}, longest streak {plural(s["longest"], "day")}, most active on {s["busiest"]}.</desc>
+  <title id="t">A year in orbit</title>
+  <desc id="d">GitHub activity for the last year drawn as a turning spiral: one dot per day, oldest at the centre and today on the rim; busier days are bigger and brighter.</desc>
   <defs>
-    <linearGradient id="num" x1="0" y1="0" x2="260" y2="0" gradientUnits="userSpaceOnUse" spreadMethod="reflect">
+    <linearGradient id="g" x1="0" y1="0" x2="300" y2="0" gradientUnits="userSpaceOnUse" spreadMethod="reflect">
       <stop offset="0" stop-color="{t['a1']}"/><stop offset="0.5" stop-color="{t['a2']}"/><stop offset="1" stop-color="{t['a3']}"/>
-      <animateTransform attributeName="gradientTransform" type="translate" values="0 0;260 0;0 0" dur="8s" repeatCount="indefinite"/>
+      <animateTransform attributeName="gradientTransform" type="translate" values="0 0;300 0;0 0" dur="8s" repeatCount="indefinite"/>
     </linearGradient>
-    <linearGradient id="bar" x1="{x0}" y1="0" x2="{x1}" y2="0" gradientUnits="userSpaceOnUse">
-      <stop offset="0" stop-color="{t['a1']}"/><stop offset="0.5" stop-color="{t['a2']}"/><stop offset="1" stop-color="{t['a3']}"/>
-    </linearGradient>
-    <linearGradient id="scan" x1="0" x2="1"><stop offset="0" stop-color="{t['a1']}" stop-opacity="0"/><stop offset="0.5" stop-color="{t['a1']}" stop-opacity="0.22"/><stop offset="1" stop-color="{t['a1']}" stop-opacity="0"/></linearGradient>
+    <radialGradient id="core"><stop offset="0" stop-color="{t['a1']}" stop-opacity="0.45"/><stop offset="1" stop-color="{t['a1']}" stop-opacity="0"/></radialGradient>
     <pattern id="dots" width="22" height="22" patternUnits="userSpaceOnUse"><circle cx="1.5" cy="1.5" r="1.1" fill="{t['dots']}"/></pattern>
     <filter id="blur" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="40"/></filter>
+    <filter id="soft" x="-100%" y="-100%" width="300%" height="300%"><feGaussianBlur stdDeviation="4"/></filter>
     <clipPath id="frame"><rect width="{W}" height="{H}" rx="18"/></clipPath>
-    <clipPath id="chart"><rect x="{x0 - 6}" y="{top - 30}" width="{x1 - x0 + 12}" height="{base - top + 34}"/></clipPath>
   </defs>
   <style>
     .sans {{ font-family: 'Segoe UI', Inter, system-ui, -apple-system, 'Helvetica Neue', Arial, sans-serif; }}
     .mono {{ font-family: ui-monospace, 'Cascadia Code', 'SF Mono', Consolas, 'Liberation Mono', monospace; }}
     .tag {{ font-size: 12px; fill: {t['muted']}; letter-spacing: 2px; }}
-    .num {{ font-weight: 800; font-size: 46px; letter-spacing: -1px; }}
-    .unit {{ font-size: 16px; fill: {t['muted']}; }}
-    .label {{ font-size: 10.5px; fill: {t['muted']}; letter-spacing: 1.5px; }}
-    .stat {{ font-size: 17px; font-weight: 700; fill: {t['text']}; }}
-    .axis {{ font-size: 10.5px; fill: {t['muted']}; letter-spacing: 1px; }}
-    .peak {{ font-size: 11px; fill: {t['text']}; }}
-    .foot {{ font-size: 10.5px; fill: {t['muted']}; }}
-    .bar {{ transform-box: fill-box; transform-origin: 50% 100%; animation: grow .9s cubic-bezier(.2,.8,.2,1) both; }}
-    .scan {{ animation: scan 7s ease-in-out infinite; }}
+    .h {{ font-weight: 800; font-size: 40px; letter-spacing: -0.8px; }}
+    .p {{ font-size: 15px; fill: {t['muted']}; }}
+    .small {{ font-size: 10.5px; fill: {t['muted']}; letter-spacing: 1px; }}
+    .galaxy {{ transform-origin: {cx}px {cy}px; animation: spin 140s linear infinite; }}
+    .trail {{ stroke-dasharray: 2600; animation: draw 3.2s cubic-bezier(.3,.7,.2,1) backwards; }}
+    .appear {{ animation: fade 1.2s ease-out .6s backwards; }}
+    .tw {{ animation: twinkle 4s ease-in-out infinite; }}
+    .ping {{ transform-box: fill-box; transform-origin: center; animation: ping 2.4s ease-out infinite; }}
     .orbA {{ animation: driftA 14s ease-in-out infinite; }}
     .orbB {{ animation: driftB 18s ease-in-out infinite; }}
-    .ping {{ transform-box: fill-box; transform-origin: center; animation: ping 2.4s ease-out infinite; }}
-    @keyframes grow {{ from {{ transform: scaleY(0); }} to {{ transform: scaleY(1); }} }}
-    @keyframes scan {{ 0% {{ transform: translateX(-80px); opacity: 0; }} 10% {{ opacity: 1; }} 90% {{ opacity: 1; }} 100% {{ transform: translateX({x1 - x0 + 80}px); opacity: 0; }} }}
+    @keyframes spin {{ to {{ transform: rotate(360deg); }} }}
+    @keyframes draw {{ from {{ stroke-dashoffset: 2600; }} to {{ stroke-dashoffset: 0; }} }}
+    @keyframes fade {{ from {{ opacity: 0; }} to {{ opacity: 1; }} }}
+    @keyframes twinkle {{ 0%,100% {{ opacity: 1; }} 50% {{ opacity: .45; }} }}
+    @keyframes ping {{ 0% {{ transform: scale(1); opacity: .9; }} 100% {{ transform: scale(3.4); opacity: 0; }} }}
     @keyframes driftA {{ 0%,100% {{ transform: translate(0,0); }} 50% {{ transform: translate(60px,24px); }} }}
     @keyframes driftB {{ 0%,100% {{ transform: translate(0,0); }} 50% {{ transform: translate(-70px,-18px); }} }}
-    @keyframes ping {{ 0% {{ transform: scale(1); opacity: .9; }} 100% {{ transform: scale(3.2); opacity: 0; }} }}
-    @media (prefers-reduced-motion: reduce) {{ .bar,.scan,.orbA,.orbB,.ping {{ animation: none; }} .scan {{ display: none; }} }}
+    @media (prefers-reduced-motion: reduce) {{
+      .galaxy,.tw,.ping,.orbA,.orbB {{ animation: none; }}
+      .trail {{ animation: none; stroke-dashoffset: 0; }}
+      .appear {{ animation: none; opacity: 1; }}
+    }}
   </style>
   <g clip-path="url(#frame)">
     <rect width="{W}" height="{H}" fill="{t['bg']}"/>
     <rect width="{W}" height="{H}" fill="url(#dots)"/>
-    <circle class="orbA" cx="150" cy="30" r="120" fill="{t['orb1']}" opacity="{t['orb_op']}" filter="url(#blur)"/>
-    <circle class="orbB" cx="720" cy="280" r="130" fill="{t['orb2']}" opacity="{t['orb_op']}" filter="url(#blur)"/>
+    <circle class="orbA" cx="160" cy="40" r="120" fill="{t['orb1']}" opacity="{t['orb_op']}" filter="url(#blur)"/>
+    <circle class="orbB" cx="640" cy="300" r="140" fill="{t['orb2']}" opacity="{t['orb_op']}" filter="url(#blur)"/>
 
-    <rect x="{x0 - 4}" y="34" width="6" height="64" rx="3" fill="{t['a1']}"/>
-    <text x="{x0 + 14}" y="48" class="mono tag">ACTIVITY · LAST 12 MONTHS</text>
-    <text x="{x0 + 12}" y="96" class="sans"><tspan class="num" fill="url(#num)">{total}</tspan><tspan class="unit" dx="12">contributions</tspan></text>
-    {stats_block}
+    <rect x="40" y="58" width="6" height="64" rx="3" fill="{t['a1']}"/>
+    <text x="58" y="72" class="mono tag">ACTIVITY · ONE DOT PER DAY</text>
+    <text x="56" y="118" class="sans h" fill="url(#g)">A year in orbit</text>
+    <text x="58" y="160" class="sans p">The last twelve months, spiralling out</text>
+    <text x="58" y="182" class="sans p">from the centre to today. Brighter means busier.</text>
+    {legend}
+    <text x="54" y="276" class="mono small">QUIET</text>
+    <text x="130" y="276" text-anchor="end" class="mono small">BUSY</text>
 
-    <line x1="{x0}" y1="{base + 0.5}" x2="{x1}" y2="{base + 0.5}" stroke="{t['border']}"/>
-    <g clip-path="url(#chart)">
-      {''.join(bars)}
-      <rect class="scan" x="{x0 - 40}" y="{top - 10}" width="80" height="{base - top + 10}" fill="url(#scan)"/>
+    <circle cx="{cx}" cy="{cy}" r="34" fill="url(#core)"/>
+    <g class="galaxy">
+      <polyline class="trail" points="{' '.join(pts)}" fill="none" stroke="{t['border']}" stroke-width="1" opacity="0.7"/>
+      <g class="appear">
+        <g filter="url(#soft)">{''.join(glows)}</g>
+        {''.join(dots)}
+        <circle class="ping" cx="{lx}" cy="{ly}" r="4" fill="none" stroke="{t['a3']}" stroke-width="1.5"/>
+      </g>
     </g>
-    <circle class="ping" cx="{px:.1f}" cy="{base - ph - 10:.1f}" r="3" fill="{t['a1']}"/>
-    <circle cx="{px:.1f}" cy="{base - ph - 10:.1f}" r="3" fill="{t['a1']}"/>
-    <text x="{px:.1f}" y="{base - ph - 20:.1f}" text-anchor="{anchor}" class="mono peak">peak week · {peak_label}</text>
-    {''.join(months)}
-    <text x="{x1}" y="{H - 16}" text-anchor="end" class="mono foot">updated {today}</text>
+    <text x="{W - 24}" y="{H - 18}" text-anchor="end" class="mono small">updated {today}</text>
     <rect x="0.5" y="0.5" width="{W - 1}" height="{H - 1}" rx="18" fill="none" stroke="{t['border']}"/>
   </g>
 </svg>
@@ -191,13 +177,12 @@ def main():
     days = fetch_graphql(a.user, token) if token else fetch_public(a.user)
     if not days:
         raise SystemExit("no contribution data")
-    s = stats(days)
     os.makedirs(a.out, exist_ok=True)
     today = dt.date.today().isoformat()
     for name, t in TOKENS.items():
         with open(os.path.join(a.out, f"activity-{name}.svg"), "w", encoding="utf-8", newline="\n") as f:
-            f.write(render(s, t, today))
-    print(json.dumps({k: v for k, v in s.items() if k != "weeks"}), len(s["weeks"]), "weeks")
+            f.write(render(days, t, today))
+    print(len(days), "days rendered")
 
 
 if __name__ == "__main__":
