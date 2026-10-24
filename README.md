@@ -39,16 +39,17 @@ Have a project in mind? [Let's talk.](mailto:abhisuryanu9roho@gmail.com)
       <code>Python</code> <code>FFmpeg</code> <code>Ollama</code> <code>YouTube Data API</code> <code>Android</code>
     </td>
     <td width="50%" valign="top">
-      <a href="https://www.p2hpkacermania.com/"><img src="assets/p2hp.jpg" alt="P2HP community website: red hero section with the community logo and the buttons Kunjungi Aplikasi and Gabung Komunitas"></a>
-      <h4><a href="https://www.p2hpkacermania.com/">P2HP community website</a> · 2025</h4>
-      <sub>Community website for Perhimpunan Pecinta Hitam Putih (P2HP) covering agenda, news, and gallery. A companion mobile app shipped to Google Play (listing no longer active).</sub><br><br>
-      <code>HTML</code> <code>Tailwind CSS</code> <code>PHP</code> <code>MySQL</code> <code>React Native</code> <code>Firebase</code>
+      <img src="assets/bihuy.jpg" alt="Bihuy desktop window in dark mode: the chat reports a finished 7-slide presentation on handwashing, lists its slides, and shows a file card with Buka, Folder, and Unduh buttons">
+      <h4>Bihuy Chat · 2026</h4>
+      <sub>A private AI assistant that runs entirely on one gaming PC, no account and no quota. Beyond chatting, it builds PowerPoint, Word, and Excel files, reads attached documents, generates images on the local GPU, and runs small code projects only after a permission card is approved. A junior high school teacher uses it daily to make teaching materials; phones and laptops connect to it through an Android app and a token gateway.</sub><br><br>
+      <code>Python</code> <code>Ollama</code> <code>pywebview</code> <code>python-pptx</code> <code>Android</code> <code>MCP</code>
     </td>
   </tr>
 </table>
 
 | Project | What it is | Recognition |
 |---|---|---|
+| [**P2HP community website**](https://www.p2hpkacermania.com/) · 2025 | Website for Perhimpunan Pecinta Hitam Putih covering agenda, news, and gallery (HTML, Tailwind CSS, PHP, MySQL), plus a companion React Native app shipped to Google Play | 🌐 Live community site |
 | **EduSafe** · 2024 | Flutter app where students discuss homework with each other, backed by Laravel and an ERD-based database design | 🥉 3rd place, LKS IT Solution, East Jakarta City |
 | [**Cloubee**](https://cloubee.vercel.app) · 2024 | Donation site that points people to verified charities (HTML, CSS, JavaScript) | 🏁 Grand finalist, AWS Sagasitas Cloud Computing Club Competition, DKI Jakarta |
 
