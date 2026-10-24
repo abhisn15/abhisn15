@@ -110,7 +110,7 @@ Supported Qurban, Aqiqah, and Nazar operations for Sohibul Qurban beneficiaries 
 </picture>
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/abhisn15/abhisn15/output/github-contribution-grid-snake-dark.svg">
-  <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/abhisn15/abhisn15/output/github-contribution-grid-snake.svg">
-  <img src="https://raw.githubusercontent.com/abhisn15/abhisn15/output/github-contribution-grid-snake-dark.svg" alt="Animated snake eating the contribution graph" width="100%">
+  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/abhisn15/abhisn15/output/activity-dark.svg">
+  <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/abhisn15/abhisn15/output/activity-light.svg">
+  <img src="https://raw.githubusercontent.com/abhisn15/abhisn15/output/activity-dark.svg" alt="GitHub activity over the last 12 months: total contributions, current and longest streak, most active day, and a bar for each week" width="100%">
 </picture>

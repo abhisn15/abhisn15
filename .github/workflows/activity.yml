@@ -1,0 +1,33 @@
+name: Generate activity card
+
+on:
+  schedule:
+    - cron: "17 0 * * *" # daily
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - ".github/scripts/activity.py"
+      - ".github/workflows/activity.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Render activity SVGs
+        run: python .github/scripts/activity.py --user "${{ github.repository_owner }}" --out dist
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - uses: crazy-max/ghaction-github-pages@v4
+        with:
+          target_branch: output
+          build_dir: dist
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
