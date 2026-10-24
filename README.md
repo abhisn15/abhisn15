@@ -33,8 +33,8 @@ Have a project in mind? [Let's talk.](mailto:abhisuryanu9roho@gmail.com)
 <table>
   <tr>
     <td width="50%" valign="top">
-      <a href="https://atenim.tpm-facility.com"><img src="assets/mms.jpg" alt="Atenim Workforce Hub sign-in page: an office photo on the left and a login card that accepts email, national ID number, or employee ID"></a>
-      <h4><a href="https://atenim.tpm-facility.com">MMS · Monitoring Management System</a> · 2025–now</h4>
+      <a href="https://atenim-dev.tpmgroup.id/login"><img src="assets/mms.jpg" alt="MMS sign-in page: a blue panel reading Absensi, jadwal shift, dan patroli untuk tenaga kerja di banyak lokasi, and a login form that accepts email, national ID number, or employee ID"></a>
+      <h4><a href="https://atenim-dev.tpmgroup.id/login">MMS · Monitoring Management System</a> · 2025–now</h4>
       <sub>The workforce platform I design and build at TPM Group, in daily production use: attendance gated by Face ID with a liveness check, plus GPS and a QR code that rotates every 30 seconds; shifts and schedules; leave and correction approvals; security patrols with QR checkpoints; real-time location monitoring; payroll slips; and company asset handover. A web dashboard for four roles and a Flutter app for employees.</sub><br><br>
       <code>Next.js</code> <code>TypeScript</code> <code>Prisma</code> <code>MySQL</code> <code>Flutter</code>
     </td>
