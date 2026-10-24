@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="840" height="72" viewBox="0 0 840 72" role="img" aria-label="Activity">
+  <title>Activity</title>
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="300" y2="0" gradientUnits="userSpaceOnUse" spreadMethod="reflect">
+      <stop offset="0" stop-color="#99F4FF"/><stop offset="0.5" stop-color="#7C9CFF"/><stop offset="1" stop-color="#C792FF"/>
+      <animateTransform attributeName="gradientTransform" type="translate" values="0 0;300 0;0 0" dur="8s" repeatCount="indefinite"/>
+    </linearGradient>
+    <linearGradient id="l" x1="0" x2="1"><stop offset="0" stop-color="#99F4FF"/><stop offset="0.35" stop-color="#7C9CFF" stop-opacity=".6"/><stop offset="1" stop-color="#30363D" stop-opacity="0"/></linearGradient>
+  </defs>
+  <style>
+    .n { font: 500 13px ui-monospace,'Cascadia Code','SF Mono',Consolas,monospace; fill: #8B949E; letter-spacing: 2px; }
+    .h { font: 800 28px 'Segoe UI',Inter,system-ui,-apple-system,'Helvetica Neue',Arial,sans-serif; letter-spacing: -0.3px; }
+    .line { transform-origin: 0 0; animation: grow 1.6s cubic-bezier(.2,.8,.2,1) both; }
+    .dot { animation: pulse 2.4s ease-in-out infinite; transform-origin: 6px 40px; }
+    @keyframes grow { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+    @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: .35; } }
+    @media (prefers-reduced-motion: reduce) { .line,.dot { animation: none; } }
+  </style>
+  <circle class="dot" cx="6" cy="40" r="4" fill="#99F4FF"/>
+  <text x="22" y="22" class="n">03</text>
+  <text x="20" y="50" class="h" fill="url(#g)">Activity</text>
+  <rect class="line" x="20" y="64" width="820" height="2" rx="1" fill="url(#l)"/>
+</svg>
