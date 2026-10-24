@@ -33,6 +33,20 @@ Have a project in mind? [Let's talk.](mailto:abhisuryanu9roho@gmail.com)
 <table>
   <tr>
     <td width="50%" valign="top">
+      <a href="https://atenim.tpm-facility.com"><img src="assets/mms.jpg" alt="Atenim Workforce Hub sign-in page: an office photo on the left and a login card that accepts email, national ID number, or employee ID"></a>
+      <h4><a href="https://atenim.tpm-facility.com">MMS · Monitoring Management System</a> · 2025–now</h4>
+      <sub>The workforce platform I design and build at TPM Group, in daily production use: attendance gated by Face ID with a liveness check, plus GPS and a QR code that rotates every 30 seconds; shifts and schedules; leave and correction approvals; security patrols with QR checkpoints; real-time location monitoring; payroll slips; and company asset handover. A web dashboard for four roles and a Flutter app for employees.</sub><br><br>
+      <code>Next.js</code> <code>TypeScript</code> <code>Prisma</code> <code>MySQL</code> <code>Flutter</code>
+    </td>
+    <td width="50%" valign="top">
+      <a href="https://psikotesdaring.com"><img src="assets/psikotes.jpg" alt="Psikotes Daring homepage: the headline Solusi Terbaik Untuk Mengetahui Potensi dan Kepribadianmu, a Mulai Tes button, and an illustration of a psychologist on a phone screen"></a>
+      <h4><a href="https://psikotesdaring.com">Psikotes Daring</a> · 2026</h4>
+      <sub>Online psychological testing platform (PAPI, MBTI, DISC, RMIB, CFIT, IST, IQ) that reports 400,000+ users and 50+ client companies. I work on the backend that serves both the website and the Flutter app: scoring, PDF result certificates, Midtrans and Xendit payments, and anti-fraud filtering, and I'm building its version 2.</sub><br><br>
+      <code>PHP</code> <code>CodeIgniter</code> <code>MySQL</code> <code>Google Cloud Storage</code> <code>Flutter</code>
+    </td>
+  </tr>
+  <tr>
+    <td width="50%" valign="top">
       <a href="https://abhisn15.github.io/katalog/"><img src="assets/fixbeli.jpg" alt="FixBeli ID product catalog: numbered product cards with category, title, short description, and a Lihat di Shopee button"></a>
       <h4><a href="https://abhisn15.github.io/katalog/">FixBeli ID</a> · 2026</h4>
       <sub>An automated pipeline that turns a product link into a finished vertical video on its own: AI writes the script through a five-provider fallback chain, a local LLM picks matching stock footage, FFmpeg renders it, and uploads are scheduled to YouTube and Facebook, all driven from a custom Android app.</sub><br><br>
