@@ -1,0 +1,84 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="840" height="260" viewBox="0 0 840 260" role="img" aria-labelledby="t d">
+  <title id="t">Abhi Surya Nugroho, Fullstack Developer</title>
+  <desc id="d">Code with intention. Design with compassion. Fullstack, mobile, and interactive 3D developer in Jakarta.</desc>
+  <defs>
+    <linearGradient id="nameGrad" x1="0" y1="0" x2="420" y2="0" gradientUnits="userSpaceOnUse" spreadMethod="reflect">
+      <stop offset="0" stop-color="#99F4FF"/>
+      <stop offset="0.5" stop-color="#7C9CFF"/>
+      <stop offset="1" stop-color="#C792FF"/>
+      <animateTransform attributeName="gradientTransform" type="translate" values="0 0;420 0;0 0" dur="8s" repeatCount="indefinite"/>
+    </linearGradient>
+    <pattern id="dots" width="22" height="22" patternUnits="userSpaceOnUse">
+      <circle cx="1.5" cy="1.5" r="1.1" fill="#2A3140"/>
+    </pattern>
+    <filter id="blur" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="38"/></filter>
+    <clipPath id="frame"><rect x="0" y="0" width="840" height="260" rx="18"/></clipPath>
+    <clipPath id="c0"><rect x="60" y="150" height="34" width="0"><animate attributeName="width" values="0;250;250;0;0" keyTimes="0;0.07;0.19;0.23;1" dur="12s" begin="0s" repeatCount="indefinite"/></rect></clipPath>
+    <clipPath id="c1"><rect x="60" y="150" height="34" width="0"><animate attributeName="width" values="0;250;250;0;0" keyTimes="0;0.07;0.19;0.23;1" dur="12s" begin="3s" repeatCount="indefinite"/></rect></clipPath>
+    <clipPath id="c2"><rect x="60" y="150" height="34" width="0"><animate attributeName="width" values="0;325;325;0;0" keyTimes="0;0.07;0.19;0.23;1" dur="12s" begin="6s" repeatCount="indefinite"/></rect></clipPath>
+    <clipPath id="c3"><rect x="60" y="150" height="34" width="0"><animate attributeName="width" values="0;300;300;0;0" keyTimes="0;0.07;0.19;0.23;1" dur="12s" begin="9s" repeatCount="indefinite"/></rect></clipPath>
+  </defs>
+  <style>
+    .sans { font-family: 'Segoe UI', Inter, system-ui, -apple-system, 'Helvetica Neue', Arial, sans-serif; }
+    .mono { font-family: ui-monospace, 'Cascadia Code', 'SF Mono', Consolas, 'Liberation Mono', monospace; }
+    .name { font-weight: 800; font-size: 48px; letter-spacing: -0.5px; }
+    .role { font-size: 22px; fill: #E6EDF3; }
+    .prompt { font-size: 22px; fill: #6BBEC8; }
+    .motto { font-size: 15px; fill: #8B949E; }
+    .tag { font-size: 12px; fill: #8B949E; letter-spacing: 2px; }
+    .orbA { animation: driftA 14s ease-in-out infinite; }
+    .orbB { animation: driftB 18s ease-in-out infinite; }
+    .spin { transform-origin: 735px 130px; animation: spin 24s linear infinite; }
+    .spinR { transform-origin: 735px 130px; animation: spin 36s linear infinite reverse; }
+    .pulse { transform-origin: 735px 130px; animation: pulse 4s ease-in-out infinite; }
+    .blink { animation: blink 1s steps(1) infinite; }
+    @keyframes driftA { 0%,100% { transform: translate(0,0); } 50% { transform: translate(60px,30px); } }
+    @keyframes driftB { 0%,100% { transform: translate(0,0); } 50% { transform: translate(-70px,-20px); } }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    @keyframes pulse { 0%,100% { transform: scale(1); opacity: .9; } 50% { transform: scale(1.12); opacity: 1; } }
+    @keyframes blink { 50% { opacity: 0; } }
+    @media (prefers-reduced-motion: reduce) { .orbA,.orbB,.spin,.spinR,.pulse,.blink { animation: none; } }
+  </style>
+  <g clip-path="url(#frame)">
+    <rect width="840" height="260" fill="#0D1117"/>
+    <rect width="840" height="260" fill="url(#dots)"/>
+    <circle class="orbA" cx="180" cy="40" r="120" fill="#1F6FEB" opacity="0.22" filter="url(#blur)"/>
+    <circle class="orbB" cx="700" cy="230" r="130" fill="#8957E5" opacity="0.22" filter="url(#blur)"/>
+
+    <!-- orbit motif: a nod to the 3D work -->
+    <g class="spin">
+      <ellipse cx="735" cy="130" rx="78" ry="34" fill="none" stroke="#30363D" stroke-width="1.2" transform="rotate(-25 735 130)"/>
+      <circle cx="813" cy="130" r="5" fill="#99F4FF" transform="rotate(-25 735 130)"/>
+    </g>
+    <g class="spinR">
+      <ellipse cx="735" cy="130" rx="78" ry="34" fill="none" stroke="#30363D" stroke-width="1.2" transform="rotate(35 735 130)"/>
+      <circle cx="657" cy="130" r="4" fill="#C792FF" transform="rotate(35 735 130)"/>
+    </g>
+    <g class="spin" style="animation-duration:30s">
+      <ellipse cx="735" cy="130" rx="52" ry="52" fill="none" stroke="#21262D" stroke-width="1" stroke-dasharray="3 6"/>
+      <circle cx="735" cy="78" r="3" fill="#7C9CFF"/>
+    </g>
+    <g class="pulse">
+      <circle cx="735" cy="130" r="22" fill="#161B22" stroke="#6BBEC8" stroke-width="1.5"/>
+      <text x="735" y="136" text-anchor="middle" class="mono" font-size="16" fill="#99F4FF">&lt;/&gt;</text>
+    </g>
+
+    <rect x="60" y="44" width="6" height="64" rx="3" fill="#6BBEC8"/>
+    <text x="80" y="62" class="mono tag">JAKARTA · FULLSTACK</text>
+    <text x="78" y="112" class="sans name" fill="url(#nameGrad)">Abhi Surya Nugroho</text>
+
+    <text x="60" y="174" class="mono prompt">&gt;</text>
+    <g transform="translate(22 0)">
+      <g clip-path="url(#c0)"><text x="60" y="174" class="mono role" textLength="230" lengthAdjust="spacingAndGlyphs">Fullstack Developer</text></g>
+      <g clip-path="url(#c1)"><text x="60" y="174" class="mono role" textLength="230" lengthAdjust="spacingAndGlyphs">Web &amp; Mobile Apps</text></g>
+      <g clip-path="url(#c2)"><text x="60" y="174" class="mono role" textLength="305" lengthAdjust="spacingAndGlyphs">GSAP · Three.js tinkerer</text></g>
+      <g clip-path="url(#c3)"><text x="60" y="174" class="mono role" textLength="280" lengthAdjust="spacingAndGlyphs">IT Staff at TPM Group</text></g>
+    </g>
+    <rect class="blink" x="0" y="156" width="11" height="22" fill="#99F4FF">
+      <animate attributeName="x" values="82;314;314;82;82;314;314;82;82;389;389;82;82;364;364;82;82" keyTimes="0;0.07;0.19;0.23;0.25;0.32;0.44;0.48;0.5;0.57;0.69;0.73;0.75;0.82;0.94;0.98;1" dur="12s" repeatCount="indefinite"/>
+    </rect>
+
+    <text x="60" y="216" class="sans motto">Code with intention. Design with compassion.</text>
+    <rect x="0.5" y="0.5" width="839" height="259" rx="18" fill="none" stroke="#30363D"/>
+  </g>
+</svg>
